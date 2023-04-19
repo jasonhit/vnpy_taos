@@ -20,7 +20,7 @@ CREATE STABLE IF NOT EXISTS s_bar (
     close_price DOUBLE
 )
 TAGS(
-    symbol BINARY(20),
+    symbol BINARY(80),
     exchange BINARY(10),
     interval_ BINARY(5),
     start_time TIMESTAMP,
@@ -33,7 +33,7 @@ TAGS(
 CREATE_TICK_TABLE_SCRIPT = """
 CREATE STABLE IF NOT EXISTS s_tick (
     datetime TIMESTAMP,
-    name NCHAR(20),
+    name NCHAR(120),
     volume DOUBLE,
     turnover DOUBLE,
     open_interest DOUBLE,
@@ -68,7 +68,7 @@ CREATE STABLE IF NOT EXISTS s_tick (
     localtime TIMESTAMP
 )
 TAGS(
-    symbol BINARY(20),
+    symbol BINARY(80),
     exchange BINARY(10),
     start_time TIMESTAMP,
     end_time TIMESTAMP,

@@ -61,6 +61,9 @@ class TaosDatabase(BaseDatabase):
 
         count: int = 0
         table_name: str = "_".join(["bar", symbol, exchange.value, interval.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 以超级表为模版创建表
         create_table_script: str = (
@@ -116,6 +119,9 @@ class TaosDatabase(BaseDatabase):
 
         count: int = 0
         table_name: str = "_".join(["tick", symbol, exchange.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 以超级表为模版创建表
         create_table_script: str = (
@@ -174,6 +180,9 @@ class TaosDatabase(BaseDatabase):
         """读取K线数据"""
         # 生成数据表名
         table_name: str = "_".join(["bar", symbol, exchange.value, interval.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 从数据库读取数据
         df: DataFrame = pandas.read_sql(f"select *, interval_ from {table_name} WHERE datetime BETWEEN '{start}' AND '{end}'", self.conn)
@@ -210,6 +219,9 @@ class TaosDatabase(BaseDatabase):
         """读取tick数据"""
         # 生成数据表名
         table_name: str = "_".join(["tick", symbol, exchange.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 从数据库读取数据
         df: DataFrame = pandas.read_sql(f"select * from {table_name} WHERE datetime BETWEEN '{start}' AND '{end}'", self.conn)
@@ -269,6 +281,9 @@ class TaosDatabase(BaseDatabase):
         """删除K线数据"""
         # 生成数据表名
         table_name: str = "_".join(["bar", symbol, exchange.value, interval.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 查询数据条数
         self.cursor.execute(f"select count(*) from {table_name}")
@@ -288,6 +303,9 @@ class TaosDatabase(BaseDatabase):
         """删除tick数据"""
         # 生成数据表名
         table_name: str = "_".join(["tick", symbol, exchange.value])
+        # IB 的symbol 带有”-“,"."(期权行使价),但taos的表名只支持数字/字符/下划线
+        table_name = table_name.replace('-','_')
+        table_name = table_name.replace('.','_')
 
         # 查询数据条数
         self.cursor.execute(f"select count(*) from {table_name}")
